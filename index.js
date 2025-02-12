@@ -1,9 +1,11 @@
 import mongoose from 'mongoose'
-// Replace with your actual MongoDB URI
+import express from 'express'
 const uri = 'mongodb+srv://mongo:Vanya7730@alex-cgm.aprcx.mongodb.net/alex-cgm'
 
+const app = express()
+
+
 mongoose.connect(uri)
-console.log ('db connected')
 
 const entrySchema = new mongoose.Schema({
     sgv: Number,
@@ -15,8 +17,15 @@ async function fetchEntries() {
 
     entries.forEach(entry => {
         const entryValue = (entry.sgv/18).toFixed(1)
-        console.log (entryValue)
+        app.get('/', (req, res) => {
+            console.log (entryValue)
+            res.send(entryValue)
+        })
     });
 }   
 
 fetchEntries()
+
+app.listen(5000, () => {
+    console.log(`Server is running on http://localhost:5000`);
+  });
